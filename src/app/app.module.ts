@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './shared/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -24,7 +25,8 @@ import { PostsService } from './services/posts.service';
   BrowserModule,
     MaterialModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [PostsService],
   bootstrap: [AppComponent]
