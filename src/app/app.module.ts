@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent} from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
+import { PostsService } from './services/posts.service';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
     BrowserAnimationsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [PostsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
