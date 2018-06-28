@@ -6,7 +6,7 @@
     <p>{{ post.content }}</p>
     <mat-action-row>
       <button mat-button color="primary">편집</button>
-      <button mat-button color="warn">삭제</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">삭제</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
