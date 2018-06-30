@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { PostListComponent} from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostsService } from './services/posts.service';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PostsService } from './services/posts.service';
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [PostsService],
   bootstrap: [AppComponent]

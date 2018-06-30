@@ -1,1 +1,9 @@
-<mat-toolbar color="primary">홈</mat-toolbar>
+<mat-toolbar color="primary">
+  <a [routerLink]="['/']" routerLinkActive="mat-accent">홈</a>
+  <span class="spacer"></span>
+  <ul>
+    <li>
+      <a mat-button [routerLink]="['/create']" routerLinkActive="mat-accent">카드생성</a>
+    </li>
+  </ul>
+</mat-toolbar>
