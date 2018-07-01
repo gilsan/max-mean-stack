@@ -33,7 +33,7 @@ export class PostCreateComponent implements OnInit {
           this.postId = paramMap.get('postId');
           this.postsService.getPost(this.postId)
             .subscribe( postData => {
-                console.log('post create: ', postData);
+
                this.post = {
                     id: postData._id,
                     title: postData.title,

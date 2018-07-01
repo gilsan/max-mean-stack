@@ -69,7 +69,7 @@ getPost(id: string) {
   updatePost(id: string, title: string, content: string, image: File | string) {
    // const post: Post = { id: id, title: title, content: content, imagePath: null};
     let postData: Post | FormData;
-    if ( typeof(image) === 'object') {
+    if ( typeof image === 'object') {
       // 그림인 경우
       postData = new FormData();
       postData.append('id', id);
