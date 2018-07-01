@@ -6,3 +6,17 @@
 .info-text {
   text-align: center;
 }
+
+mat-spinner {
+  margin: auto;
+}
+
+.post-image {
+  width: 30%;
+  height:30%;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+}
