@@ -2,8 +2,18 @@
   <a [routerLink]="['/']" routerLinkActive="mat-accent">홈</a>
   <span class="spacer"></span>
   <ul>
-    <li>
+    <li *ngIf="isAuthentication">
       <a mat-button [routerLink]="['/create']" routerLinkActive="mat-accent">카드생성</a>
     </li>
+    <li *ngIf="!isAuthentication">
+      <a mat-button [routerLink]="['/login']" routerLinkActive="mat-accent">로그인</a>
+    </li>
+    <li *ngIf="!isAuthentication">
+      <a mat-button [routerLink]="['/signup']" routerLinkActive="mat-accent">등록</a>
+    </li>
+    <li *ngIf="isAuthentication">
+      <button mat-button (click)="logout()" >로그아웃</button>
+    </li>
   </ul>
+
 </mat-toolbar>

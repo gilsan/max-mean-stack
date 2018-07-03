@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onLogin(loginForm)"  #loginForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field>
+      <input
+        matInput
+        type="email"
+        name="email"
+        ngModel
+        #emailInput="ngModel"
+        required
+        placeholder="이메일">
+      <mat-error *ngIf="emailInput.invalid">이메일 주소를 입력해 주세요.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        name="password"
+        ngModel
+        #passwordInput="ngModel"
+        required
+        placeholder="비밀번호">
+      <mat-error *ngIf="passwordInput.invalid">비밀번호를  적어 주세요.</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit" *ngIf="!isLoading">로그인</button>
+
+  </form>
+</mat-card>

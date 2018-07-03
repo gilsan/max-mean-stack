@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 const Post = require('./models/post');
 const postRouter = require('./routes/posts');
+const usersRouter = require('./routes/users');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extened: false}));
@@ -14,7 +15,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -28,5 +29,6 @@ mongoose.connect('mongodb://localhost/mean-stack')
   .catch( () => { console.log('접속 실패....'); });
 
  app.use("/api/posts",postRouter);
+ app.use("/api/users", usersRouter);
 
 module.exports = app;

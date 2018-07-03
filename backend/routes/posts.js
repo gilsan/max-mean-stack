@@ -1,5 +1,6 @@
 const express = require("express");
 const Post = require("../models/post");
+const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
 const multer = require('multer');
@@ -28,12 +29,14 @@ const storage = multer.diskStorage({
 
 });
 
-router.post("",multer({storage:storage}).single('image'),(req, res, next) => {
+router.post("", checkAuth,
+multer({storage:storage}).single('image'),(req, res, next) => {
   const url=  req.protocol + '://' + req.get('host') ;
   const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      imagePath: url + '/images/' + req.file.filename
+      imagePath: url + '/images/' + req.file.filename,
+      creator: req.userData.userId
     });
     post.save().then( (createdPost) => {
      console.log('데이터 저장: ',createdPost);
@@ -50,7 +53,7 @@ router.post("",multer({storage:storage}).single('image'),(req, res, next) => {
     })
 });
 
-router.put("/:id",
+router.put("/:id", checkAuth,
 multer({storage:storage}).single('image'),
 (req,res, next) => {
 
@@ -63,24 +66,45 @@ multer({storage:storage}).single('image'),
       _id: req.body.id,
        title: req.body.title,
        content: req.body.content,
-       imagePath: imagePath
+       imagePath: imagePath,
+       creator: req.userData.userId
     });
-    Post.updateOne({_id: req.params.id}, post)
+    Post.updateOne({_id: req.params.id, creator: req.userData.userId}, post)
     .then( result => {
-        console.log(result);
-        res.status(200).json({message:' 데이타 갱신 완료..'})
+        if (result.nModified > 0) {
+          res.status(200).json({message:' 데이타 갱신 완료..'});
+        } else {
+          res.status(401).json({message:' 갱신권한 없음..'});
+        }
+
     });
 
    });
 
 
    router.get("", (req, res, next) => {
-    Post.find().then( document => {
-      res.status(200).json({
-        message: "서버에서 데이타 가져오기 성공!",
-        posts: document
-      });
-    });
+     const pageSize = +req.query.pagesize;
+     const currentPage = +req.query.page;
+     const postQuery = Post.find();
+     let fetchedPosts;
+     if (pageSize && currentPage) {
+      postQuery
+          .skip(pageSize * (currentPage - 1))
+          .limit(pageSize);
+     }
+
+     postQuery
+     .then( document => {
+        fetchedPosts = document;
+        return Post.count()
+      })
+      .then ( count => {
+           res.status(200).json({
+                 message: "서버에서 데이타 가져오기 성공!",
+                 posts: fetchedPosts,
+                maxPosts: count
+            });
+       });
   });
 
   router.get('/:id', (req, res, next) => {
@@ -95,11 +119,14 @@ multer({storage:storage}).single('image'),
 
 
 
-  router.delete("/:id", (req,res,next) => {
+  router.delete("/:id", checkAuth, (req,res,next) => {
      console.log(req.params.id);
-     Post.deleteOne({_id: req.params.id}).then(result => {
-       console.log(result);
-      res.status(200).json( { message: " 데이타가 삭제 되었습니다..."});
+     Post.deleteOne({_id: req.params.id, creator: req.userData.userId}).then(result => {
+      if (result.n  > 0) {
+        res.status(200).json({message:' 데이타 갱신 완료..'});
+      } else {
+        res.status(401).json({message:' 갱신권한 없음..'});
+      }
      });
     });
 
