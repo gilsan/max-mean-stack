@@ -15,10 +15,11 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostsService } from './services/posts.service';
 import { AppRoutingModule } from './app-routing.module';
 import { MatPaginatorIntlCro } from './posts/post-list/matPaginatorIntlCro';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
 import { AuthService } from './auth/auth.service';
 import { AuthInterceptorSevice } from './auth/auth-interceptor';
+import { ErrorInterceptorSevice } from './error-interceptor';
+import { ErrorComponent } from './error/error/error.component';
+
 
 
 @NgModule({
@@ -27,8 +28,7 @@ import { AuthInterceptorSevice } from './auth/auth-interceptor';
     HeaderComponent,
     PostListComponent,
     PostCreateComponent,
-    LoginComponent,
-    SignupComponent
+    ErrorComponent
   ],
   imports: [
 
@@ -38,12 +38,15 @@ import { AuthInterceptorSevice } from './auth/auth-interceptor';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   providers: [PostsService, AuthService,
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro},
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorSevice, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorSevice, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorSevice, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

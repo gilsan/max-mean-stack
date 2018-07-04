@@ -14,10 +14,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
   user: User;
   result$: Subscription;
+  private authStatusSub: Subscription;
   constructor( private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-  }
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+       authStatus => {
+         // console.log('login ngOnInit: ', authStatus);
+         this.isLoading = false;
+       }
+     );
+   }
 
   onLogin(form: NgForm) {
     if (form.invalid) {
@@ -29,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
    // this.result$.unsubscribe();
+   this.authStatusSub.unsubscribe();
   }
 
 

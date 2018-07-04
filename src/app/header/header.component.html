@@ -6,10 +6,10 @@
       <a mat-button [routerLink]="['/create']" routerLinkActive="mat-accent">카드생성</a>
     </li>
     <li *ngIf="!isAuthentication">
-      <a mat-button [routerLink]="['/login']" routerLinkActive="mat-accent">로그인</a>
+      <a mat-button [routerLink]="['/auth','login']" routerLinkActive="mat-accent">로그인</a>
     </li>
     <li *ngIf="!isAuthentication">
-      <a mat-button [routerLink]="['/signup']" routerLinkActive="mat-accent">등록</a>
+      <a mat-button [routerLink]="['/auth','signup']" routerLinkActive="mat-accent">등록</a>
     </li>
     <li *ngIf="isAuthentication">
       <button mat-button (click)="logout()" >로그아웃</button>

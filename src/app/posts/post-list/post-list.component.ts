@@ -30,7 +30,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     private authService: AuthService ) {}
 
   ngOnInit() {
-    this.isLoading = true;
+   // this.isLoading = true;
     this.userId = this.authService.getUserId();
     this.postsService.getPosts(this.postsPerPage, this.currentPage);
     this.postsSub =  this.postsService.postsUpdate$
@@ -55,6 +55,8 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postsService.deletePost(postId)
      .subscribe( () => {
          this.postsService.getPosts(this.postsPerPage, this.currentPage);
+     }, () => {
+       this.isLoading = false;
      });
   }
 

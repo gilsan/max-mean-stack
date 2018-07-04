@@ -37,7 +37,7 @@ export class AuthService {
      this.userId = null;
      clearTimeout(this.tokenTimer);
     this.clearAuthData();
-     this.router.navigate(['/login']);
+     this.router.navigate(['/auth', 'login']);
    }
 
    userLogin(email: string, password: string) {
@@ -58,10 +58,12 @@ export class AuthService {
          const now = new Date();
          const expirationDate = new Date(now.getTime() + (expiresIn * 1000));
          this.saveAuthData(token, expirationDate, this.userId);
-         console.log(expirationDate);
+        // console.log(expirationDate);
           this.router.navigate(['/']);
          }
 
+      }, error => {
+        this.authStatusListener.next(false);
       });
   }
 
@@ -69,8 +71,10 @@ export class AuthService {
      const userData = { email: email, password: password};
      this.http.post('http://localhost:3000/api/users/signup', userData)
        .subscribe(( response) => {
-          console.log(response);
-       });
+          this.router.navigate(['/']);
+       }, err => {
+          this.authStatusListener.next(false);
+       } );
   }
   /*  토큰 localStorage 저장   */
   private saveAuthData(token: string, expirationData: Date, userId: string) {
